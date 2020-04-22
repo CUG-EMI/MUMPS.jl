@@ -1,4 +1,6 @@
 name = "MUMPS"
+uuid = "5efe4092-008e-54d5-a60f-5d714b241ba2"
+version = "0.1.0"
 
 [deps]
 Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
