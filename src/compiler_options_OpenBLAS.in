@@ -1,0 +1,41 @@
+
+
+OS := $(shell uname)
+
+# Set the following variables depending on the operating system and compiler.
+# FC : Fortran 90 compiler
+# FL : Fortran linker  (usually same as FC)
+# CC : C compiler
+# OPTF : Fortran compiler options
+# OPTC : C compiler options
+# OPTL : linking options
+# LIBBLAS : Blas library to use
+
+
+ifeq ($(OS),Darwin)
+   FC      = gfortran
+   FL      = gfortran
+   CC      = gcc
+   OPTC    = -O -I. -fPIC -DINTSIZE64
+   OPTF    = -O3 -fPIC -fdefault-integer-8
+   OPTL    = $(OPTF) -shared -fcray-pointer
+
+	LIBBLAS = /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib
+	LMETISDIR = $(metisdir)/build/Darwin-x86_64/libmetis/
+else
+
+   # Linux
+   CC      = gcc
+   OPTC    = -O -I. -fPIC -DINTSIZE64
+
+   # The following is for gfortran with OpenBLAS:
+   FC      = gfortran
+   FL      = gfortran
+   OPTF    = -O3 -fPIC -fdefault-integer-8
+   OPTL    = $(OPTF) -shared -fcray-pointer
+   LIBBLAS = /opt/OpenBLAS/lib/libopenblas_haswellp-r0.3.10.a 
+   LMETISDIR = $(topdir)/../$(metisdir)/build/Linux-x86_64/libmetis/
+
+endif
+
+
